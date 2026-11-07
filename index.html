@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance QR Code Generator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Library for generating QR Code -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-white p-8 rounded-xl shadow-md max-w-md w-full text-center">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">Attendance QR Code Generator</h1>
+    
+    <div class="mb-4 text-left">
+      <label class="block text-gray-700 font-medium mb-1">Subject / Class Session:</label>
+      <input type="text" id="subjectInput" value="CS101-Introduction to Computer Science" class="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+    </div>
+
+    <button onclick="generateQR()" class="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700 transition">
+      Generate QR Code
+    </button>
+
+    <div id="qrcode" class="flex justify-center my-6"></div>
+    <p id="qrUrlText" class="text-xs text-gray-500 break-all"></p>
+  </div>
+
+  <script>
+    function generateQR() {
+      const subject = document.getElementById('subjectInput').value;
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = ""; // Clear previous QR Code
+
+      // Link to redirect students to the check-in page
+      const baseUrl = window.location.href.replace('teacher_generator.html', 'student_checkin.html');
+      const targetUrl = `${baseUrl}?subject=${encodeURIComponent(subject)}`;
+
+      new QRCode(qrContainer, {
+        text: targetUrl,
+        width: 200,
+        height: 200
+      });
+
+      document.getElementById('qrUrlText').innerText = targetUrl;
+    }
+  </script>
+</body>
+</html>
